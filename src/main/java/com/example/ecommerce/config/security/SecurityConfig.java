@@ -1,4 +1,4 @@
-package com.example.ecommerce.security;
+package com.example.ecommerce.config.security;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.servlet.FilterChain;
@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -130,26 +129,6 @@ class JwtAuthenticationProvider implements AuthenticationProvider {
 @Configuration
 @AllArgsConstructor
 public class SecurityConfig {
-//    @Autowired
-//    private final JwtUtils jwtUtils;
-
-    @Autowired
-    private JwtAuthenticationEntryPoint point;
-
-    @Autowired
-    private JwtAuthenticationFilter filter;
-
-
-//
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/v2/api-docs",
-//                "/configuration/ui",
-//                "/swagger-resources/**",
-//                "/configuration/security",
-//                "/swagger-ui.html",
-//                "/webjars/**");
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -160,9 +139,9 @@ public class SecurityConfig {
                 .requestMatchers("/general/user").permitAll()
                 .anyRequest()
                 .authenticated()
-                .and().exceptionHandling(ex -> ex.authenticationEntryPoint(point))
+                .and().exceptionHandling(ex -> ex.authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }
