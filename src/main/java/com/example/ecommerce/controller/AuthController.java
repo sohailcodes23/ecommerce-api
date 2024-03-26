@@ -1,8 +1,8 @@
 package com.example.ecommerce.controller;
 
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.LoginDto;
-import com.example.demo.service.AuthService;
+import com.example.ecommerce.dto.AuthResponse;
+import com.example.ecommerce.dto.LoginDto;
+import com.example.ecommerce.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;

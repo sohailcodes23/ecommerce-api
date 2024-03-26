@@ -1,4 +1,4 @@
-package com.example.ecommerce.security;
+package com.example.ecommerce.config.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

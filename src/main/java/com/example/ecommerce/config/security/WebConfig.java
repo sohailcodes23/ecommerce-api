@@ -1,4 +1,4 @@
-package com.example.ecommerce.security;
+package com.example.ecommerce.config.security;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;

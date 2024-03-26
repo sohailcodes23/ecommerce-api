@@ -1,16 +1,16 @@
 package com.example.ecommerce.service;
 
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.LoginDto;
-import com.example.demo.entity.Customer;
-import com.example.demo.entity.IamObject;
-import com.example.demo.exceptions.ResourceNotFoundException;
-import com.example.demo.repository.CustomerRepository;
-import com.example.demo.repository.IamObjectRepository;
-import com.example.demo.util.JwtUtils;
-import com.example.demo.util.MessageUtil;
-import com.example.demo.util.Roles;
-import com.example.demo.util.Status;
+import com.example.ecommerce.config.security.JwtUtils;
+import com.example.ecommerce.dto.AuthResponse;
+import com.example.ecommerce.dto.LoginDto;
+import com.example.ecommerce.entity.Customer;
+import com.example.ecommerce.entity.IamObject;
+import com.example.ecommerce.exceptions.ResourceNotFoundException;
+import com.example.ecommerce.repository.CustomerRepository;
+import com.example.ecommerce.repository.IamObjectRepository;
+import com.example.ecommerce.util.MessageUtil;
+import com.example.ecommerce.util.Role;
+import com.example.ecommerce.util.Status;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +26,7 @@ public class AuthService {
     private final JwtUtils jwtUtils;
 
     public AuthResponse login(LoginDto loginDto) {
-        IamObject iamObject = iamObjectRepository.findByEmailAndStatus(loginDto.getUsername(), Status.Active)
+        IamObject iamObject = iamObjectRepository.findByUsernameAndStatus(loginDto.getUsername(), Status.ACTIVE.getValue())
                 .orElseThrow(() -> new ResourceNotFoundException(MessageUtil.USER_NOT_FOUND));
 
         if (!passwordEncoder.matches(loginDto.getPassword(), iamObject.getPassword())) {
@@ -36,21 +36,21 @@ public class AuthService {
         Long userId = null;
         Object data = null;
 
-        if (iamObject.getRole().equalsIgnoreCase(Roles.CUSTOMER)) {
+        if (iamObject.getRole().equalsIgnoreCase(Role.CUSTOMER.getValue())) {
             data = iamObject.getCustomers().get(0);
             userId = iamObject.getCustomers().get(0).getId();
         }
-        String token = jwtUtils.createToken(userId, Roles.CUSTOMER);
+        String token = jwtUtils.createToken(userId, Role.CUSTOMER.getValue());
         return new AuthResponse(token, data);
     }
 
     public void registerCustomer(LoginDto loginDto) {
 
         IamObject iamObject = new IamObject();
-        iamObject.setEmail(loginDto.getUsername());
+        iamObject.setUsername(loginDto.getUsername());
         iamObject.setPassword(passwordEncoder.encode(loginDto.getPassword()));
-        iamObject.setRole(Roles.CUSTOMER);
-        iamObject.setStatus(Status.Active);
+        iamObject.setRole(Role.CUSTOMER.getValue());
+        iamObject.setStatus(Status.ACTIVE.getValue());
         iamObjectRepository.save(iamObject);
 
         Customer customer = new Customer();

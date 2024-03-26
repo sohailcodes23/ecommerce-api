@@ -14,7 +14,7 @@ public class IamObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "iam_object_seq")
     private Long id;
-    private String email;
+    private String username;
     private String password;
     private String status;
     private String role;

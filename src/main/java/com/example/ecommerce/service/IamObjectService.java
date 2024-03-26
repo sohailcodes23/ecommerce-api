@@ -1,9 +1,9 @@
 package com.example.ecommerce.service;
 
-import com.example.demo.entity.Customer;
-import com.example.demo.repository.CustomerRepository;
-import com.example.demo.repository.IamObjectRepository;
-import com.example.demo.util.JwtUtils;
+import com.example.ecommerce.config.security.JwtUtils;
+import com.example.ecommerce.entity.Customer;
+import com.example.ecommerce.repository.CustomerRepository;
+import com.example.ecommerce.repository.IamObjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;

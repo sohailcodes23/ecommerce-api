@@ -1,6 +1,6 @@
 package com.example.ecommerce.controller;
 
-import com.example.demo.service.IamObjectService;
+import com.example.ecommerce.service.IamObjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
