@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,7 +23,6 @@ public class Customer {
     private LocalDateTime modifiedDate;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "iam_object_id")
-    private IamObject iamObject;
+    @OneToMany(mappedBy = "customer")
+    private List<IamObject> iamObjects;
 }

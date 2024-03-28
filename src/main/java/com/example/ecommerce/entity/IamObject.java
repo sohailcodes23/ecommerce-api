@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Entity
 @Data
 @SequenceGenerator(name = "iam_object_seq", sequenceName = "iam_object_seq", allocationSize = 1)
@@ -19,7 +17,17 @@ public class IamObject {
     private String status;
     private String role;
 
+
     @JsonIgnore
-    @OneToMany(mappedBy = "iamObject")
-    private List<Customer> customers;
+    @ManyToOne
+    private Customer customer;
+
+    @JsonIgnore
+    @ManyToOne
+    private Admin admin;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "delivery_partner_id")
+    private DeliveryPartner deliveryPartner;
 }
