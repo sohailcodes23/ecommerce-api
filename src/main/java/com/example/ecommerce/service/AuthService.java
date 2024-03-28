@@ -37,8 +37,8 @@ public class AuthService {
         Object data = null;
 
         if (iamObject.getRole().equalsIgnoreCase(Role.CUSTOMER.getValue())) {
-            data = iamObject.getCustomers().get(0);
-            userId = iamObject.getCustomers().get(0).getId();
+//            data = iamObject.getCustomers().get(0);
+//            userId = iamObject.getCustomers().get(0).getId();
         }
         String token = jwtUtils.createToken(userId, Role.CUSTOMER.getValue());
         return new AuthResponse(token, data);
@@ -54,7 +54,7 @@ public class AuthService {
         iamObjectRepository.save(iamObject);
 
         Customer customer = new Customer();
-        customer.setIamObject(iamObject);
+//        customer.setIamObject(iamObject);
         customerRepository.save(customer);
     }
 }

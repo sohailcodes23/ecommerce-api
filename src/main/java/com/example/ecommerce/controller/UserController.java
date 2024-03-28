@@ -12,7 +12,7 @@ import java.security.Principal;
 
 @RestController()
 @Scope(value = "request")
-@RequestMapping("v1/users")
+@RequestMapping("users")
 @AllArgsConstructor
 public class UserController {
 
