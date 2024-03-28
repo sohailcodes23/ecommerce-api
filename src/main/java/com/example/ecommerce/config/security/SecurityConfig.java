@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -86,7 +87,7 @@ class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private Optional<JwtAuthenticationToken> resolveHeader(HttpServletRequest request) {
         String headerValue = request.getHeader("Authorization");
-
+        System.out.println("HEADER "+headerValue);
         if (headerValue != null && headerValue.startsWith("Bearer ")) {
             String tokenValue = headerValue.substring(7);
             JwtAuthenticationToken token = new JwtAuthenticationToken(tokenValue);
@@ -132,7 +133,7 @@ class JwtAuthenticationProvider implements AuthenticationProvider {
 @AllArgsConstructor
 public class SecurityConfig {
 
-    private static final String[] SWAGGER_WHITELIST = {
+    private static final String[] WHITELIST_URLS = {
             "/swagger-ui/**",
             "/v3/apis-docs/**",
             "/swagger-resources/**",
@@ -146,7 +147,8 @@ public class SecurityConfig {
             "/swagger-ui.html",
             "/webjars/**",
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/h2-console/**"
     };
 
 
@@ -154,14 +156,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(csrf -> csrf.disable())
+                .headers(httpSecurityHeadersConfigurer -> {
+                    httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable);
+                })
                 .authorizeRequests()
-                .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                .requestMatchers(WHITELIST_URLS).permitAll()
                 .requestMatchers("/general/current-user").hasRole("ADMIN")
                 .requestMatchers("/general/user").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().exceptionHandling(ex -> ex.authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
         http.addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

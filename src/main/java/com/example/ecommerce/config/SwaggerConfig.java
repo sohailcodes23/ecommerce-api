@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
+    //http://localhost:8080/swagger-ui.html
+    //http://localhost:8080/swagger-ui/index.html
     @Bean
     GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
@@ -22,12 +24,12 @@ public class SwaggerConfig {
     @Bean
     OpenAPI customOpenApi() {
         return new OpenAPI()
-                .info(new Info().title("API title").version("API version"))
+                .info(new Info().title("Ecommerce APIS").version("Version 1"))
                 .addSecurityItem(new SecurityRequirement()
-                        .addList("bearerAuth"))
+                        .addList("Authorization"))
                 .components(
                         new Components()
-                                .addSecuritySchemes("bearerAuth", new SecurityScheme().type(SecurityScheme.Type.HTTP)
+                                .addSecuritySchemes("Authorization", new SecurityScheme().type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
                                         .bearerFormat("JWT"))
                 );
