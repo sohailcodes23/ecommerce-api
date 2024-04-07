@@ -1,7 +1,7 @@
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.service.UserDetailService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +13,10 @@ import java.security.Principal;
 @RestController()
 @Scope(value = "request")
 @RequestMapping("users")
-@AllArgsConstructor
 public class UserController {
 
-    private final UserDetailService userDetailService;
+    @Autowired
+    private UserDetailService userDetailService;
 
     @GetMapping
     private ResponseEntity test(Principal principal) {

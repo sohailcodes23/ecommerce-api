@@ -11,19 +11,26 @@ import com.example.ecommerce.repository.UserDetailRepository;
 import com.example.ecommerce.util.MessageUtil;
 import com.example.ecommerce.util.Role;
 import com.example.ecommerce.util.Status;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+
 public class AuthService {
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserDetailRepository userDetailRepository;
-    private final CustomerRepository customerRepository;
-    private final JwtUtils jwtUtils;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserDetailRepository userDetailRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     public AuthResponse login(LoginDto loginDto) {
         UserDetail userDetail = userDetailRepository.findByUsernameAndStatus(loginDto.getUsername(), Status.ACTIVE.getValue())
