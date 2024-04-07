@@ -1,6 +1,6 @@
 package com.example.ecommerce.controller;
 
-import com.example.ecommerce.service.IamObjectService;
+import com.example.ecommerce.service.UserDetailService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +16,12 @@ import java.security.Principal;
 @AllArgsConstructor
 public class UserController {
 
-    private final IamObjectService iamObjectService;
+    private final UserDetailService userDetailService;
 
     @GetMapping
     private ResponseEntity test(Principal principal) {
         System.out.println("ID " + principal.getName());
-        return ResponseEntity.ok(iamObjectService.getCustomer(principal));
+        return ResponseEntity.ok(userDetailService.getCustomer(principal));
     }
 
 }

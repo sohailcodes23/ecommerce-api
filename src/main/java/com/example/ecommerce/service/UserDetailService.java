@@ -3,7 +3,7 @@ package com.example.ecommerce.service;
 import com.example.ecommerce.config.security.JwtUtils;
 import com.example.ecommerce.entity.Customer;
 import com.example.ecommerce.repository.CustomerRepository;
-import com.example.ecommerce.repository.IamObjectRepository;
+import com.example.ecommerce.repository.UserDetailRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
@@ -12,8 +12,8 @@ import java.security.Principal;
 
 @Service
 @AllArgsConstructor
-public class IamObjectService {
-    private final IamObjectRepository iamObjectRepository;
+public class UserDetailService {
+    private final UserDetailRepository userDetailRepository;
     private final CustomerRepository customerRepository;
 
     private final JwtUtils jwtUtils;

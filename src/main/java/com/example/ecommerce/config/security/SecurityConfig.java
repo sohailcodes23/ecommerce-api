@@ -87,7 +87,7 @@ class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private Optional<JwtAuthenticationToken> resolveHeader(HttpServletRequest request) {
         String headerValue = request.getHeader("Authorization");
-        System.out.println("HEADER "+headerValue);
+        System.out.println("HEADER " + headerValue);
         if (headerValue != null && headerValue.startsWith("Bearer ")) {
             String tokenValue = headerValue.substring(7);
             JwtAuthenticationToken token = new JwtAuthenticationToken(tokenValue);
